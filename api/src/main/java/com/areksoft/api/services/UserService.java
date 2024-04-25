@@ -79,9 +79,9 @@ public class UserService {
 
         System.out.println(body);
 
-        int delay = 45;
+        int delay = 1;
         CompletableFuture
-                .delayedExecutor(delay, TimeUnit.SECONDS)
+                .delayedExecutor(delay, TimeUnit.MINUTES)
                 .execute(()->{
                     // Del the key value pair from redis
                     // Key : ${username}:${email}
