@@ -1,4 +1,4 @@
-package com.areksoft.api.models;
+package com.areksoft.api.models.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

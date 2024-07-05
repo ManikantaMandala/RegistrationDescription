@@ -1,6 +1,7 @@
 package com.areksoft.api.controllers;
 
-import com.areksoft.api.models.OTPVerifyRequest;
+import com.areksoft.api.models.request.AddUserRequest;
+import com.areksoft.api.models.request.OTPVerifyRequest;
 import com.areksoft.api.models.User;
 import com.areksoft.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,15 @@ public class ApiController {
         System.out.println(users);
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
+
+    /*
+        Only super admin should be able to add users
+     */
+    @GetMapping(name="addUser", path = "/api/v1/addUser")
+    public ResponseEntity<String> addUser(@RequestBody AddUserRequest request){
+        System.out.println(request);
+        return ResponseEntity.status(HttpStatus.OK).body("Hello this is from addUsers");
+    }
+
 
 }

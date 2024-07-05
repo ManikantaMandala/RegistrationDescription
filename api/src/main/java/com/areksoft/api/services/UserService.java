@@ -1,13 +1,11 @@
 package com.areksoft.api.services;
 
 import com.areksoft.api.db.UserDb;
-import com.areksoft.api.models.OTPRequest;
-import com.areksoft.api.models.OTPResponse;
+import com.areksoft.api.models.request.OTPRequest;
+import com.areksoft.api.models.response.OTPResponse;
 import com.areksoft.api.models.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPooled;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +62,8 @@ public class UserService {
         // Start a setTimeout
 
         OTPRequest otpRequest = new OTPRequest();
-        otpRequest.setUsername(user.getUsername());
+        otpRequest.setFirstName(user.getFirstName());
+        otpRequest.setLastName(user.getLastName());
         otpRequest.setEmail(user.getEmail());
         otpRequest.setPassword(user.getPassword());
         otpRequest.setMobile(user.getMobile());
@@ -87,7 +85,7 @@ public class UserService {
                     // Key : ${username}:${email}
                     JedisPool jedisPooled = new JedisPool(redisUrl, redisPort);
                     try(Jedis jedis = jedisPooled.getResource()){
-                        long returnValue = jedis.del(user.getUsername()+":"+user.getEmail());
+                        long returnValue = jedis.del(user.getFirstName()+user.getLastName()+":"+user.getEmail());
                         System.out.println(returnValue + "After " + delay + " seconds" );
                     }catch(Exception e){
                         System.out.println(e.getMessage());
@@ -111,8 +109,8 @@ public class UserService {
         JedisPool pool = new JedisPool(redisUrl, redisPort);
         try(Jedis jedis = pool.getResource()){
             // get key-value pair from redis and parse to JSON
-            String result = jedis.get(user.getUsername()+":"+user.getEmail());
-            long resultDel = jedis.del(user.getUsername()+":"+user.getEmail());
+            String result = jedis.get(user.getFirstName()+user.getLastName()+":"+user.getEmail());
+            long resultDel = jedis.del(user.getFirstName()+user.getLastName()+":"+user.getEmail());
             System.out.println("Del Result" +  resultDel);
             if(result == null){
                 return "Please try again! one more time \ndoesn't have your key-value pair";
