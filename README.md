@@ -22,11 +22,11 @@ and send back a response request is added to Message queue
 8. [x] Now the User data is added to Database after verification.
 
 Prerequisites:
-    - Java
-    - maven
-    - node
-    - docker
-    - less secure gmail account
+- Java
+- maven
+- node
+- docker
+- less secure gmail account
 
 Setup:
 1. Install all the packages in every sub-directory:
